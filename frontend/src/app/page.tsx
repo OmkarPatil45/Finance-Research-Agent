@@ -1,69 +1,254 @@
-import Image from "next/image";
+
+"use client";
+
+import { FormEvent, useState } from "react";
+
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+const EXAMPLES = [
+  "How much did I spend in January 2024?",
+  "Show spending by category in January 2024.",
+  "Calculate the return of Apex Gold Savings Fund between 2023-04-01 and 2025-03-01.",
+  "Summarize my holdings and portfolio value.",
+];
 
 export default function Home() {
+  const [question, setQuestion] = useState("");
+  const [snapshot, setSnapshot] = useState("sample_a");
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      role: "assistant",
+      content:
+        "Hello! I'm Tara, your Finance Research Assistant. Ask me about spending, transactions, fund returns, or investment holdings.",
+    },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  async function sendQuestion(
+    event?: FormEvent<HTMLFormElement>,
+    suggestedQuestion?: string,
+  ) {
+    event?.preventDefault();
+
+    const currentQuestion = (suggestedQuestion ?? question).trim();
+    if (!currentQuestion || loading) return;
+
+    setQuestion("");
+    setMessages((previous) => [
+      ...previous,
+      { role: "user", content: currentQuestion },
+    ]);
+    setLoading(true);
+
+    try {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000";
+
+      const response = await fetch(`${baseUrl}/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: currentQuestion,
+          snapshot_id: snapshot,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          typeof data.detail === "string"
+            ? data.detail
+            : "The request could not be completed.",
+        );
+      }
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          role: "assistant",
+          content: data.answer ?? "The agent returned no answer.",
+        },
+      ]);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to connect to the finance service.";
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          role: "assistant",
+          content: `Sorry, I couldn't complete that request. ${message} Check that the backend is running and try again.`,
+        },
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-6 sm:px-8">
+        <header className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-400 text-xl font-bold text-slate-950">
+              ₹
+            </div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">
+                Finance Research Agent
+              </h1>
+              <p className="text-sm text-slate-400">
+                Tara · Your financial research assistant
+              </p>
+            </div>
+          </div>
+
+          <label className="flex items-center gap-2 text-sm text-slate-300">
+            Dataset
+            <select
+              value={snapshot}
+              onChange={(event) => setSnapshot(event.target.value)}
+              disabled={loading}
+              className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 outline-none focus:border-emerald-400"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              <option value="sample_a">Sample A</option>
+              <option value="sample_b">Sample B</option>
+              <option value="sample_c">Sample C</option>
+            </select>
+          </label>
+        </header>
+
+        <section className="grid flex-1 gap-6 py-8 md:grid-cols-[260px_1fr]">
+          <aside className="space-y-5">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
+              <h2 className="font-semibold">What I can help with</h2>
+              <ul className="mt-4 space-y-3 text-sm text-slate-400">
+                <li>↗ Spending summaries</li>
+                <li>↗ Category and merchant analysis</li>
+                <li>↗ Fund NAV returns</li>
+                <li>↗ Holding valuations</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="mb-3 text-sm font-semibold text-slate-300">
+                Try an example
+              </h2>
+              <div className="space-y-2">
+                {EXAMPLES.map((example) => (
+                  <button
+                    key={example}
+                    type="button"
+                    disabled={loading}
+                    onClick={() => void sendQuestion(undefined, example)}
+                    className="w-full rounded-xl border border-slate-800 bg-slate-900/50 p-3 text-left text-sm text-slate-300 transition hover:border-emerald-500/60 hover:bg-slate-900 disabled:opacity-50"
+                  >
+                    {example}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          <section className="flex min-h-[520px] flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50">
+            <div className="border-b border-slate-800 px-5 py-4">
+              <h2 className="font-semibold">Ask Tara</h2>
+              <p className="mt-1 text-xs text-slate-400">
+                Answers are based on the selected dataset.
+              </p>
+            </div>
+
+            <div
+              className="flex-1 space-y-5 overflow-y-auto p-5"
+              aria-live="polite"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              {messages.map((message, index) => (
+                <div
+                  key={`${index}-${message.role}`}
+                  className={`flex ${
+                    message.role === "user"
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[90%] rounded-2xl px-4 py-3 text-sm leading-7 ${
+                      message.role === "user"
+                        ? "bg-emerald-400 text-slate-950"
+                        : "border border-slate-800 bg-slate-950 text-slate-200"
+                    }`}
+                  >
+                    <p className="mb-1 text-xs font-semibold opacity-70">
+                      {message.role === "user" ? "You" : "Tara"}
+                    </p>
+                    <p className="whitespace-pre-wrap break-words">
+                      {message.content}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              {loading && (
+                <div
+                  role="status"
+                  className="text-sm text-emerald-300"
+                >
+                  Tara is checking your financial data...
+                </div>
+              )}
+            </div>
+
+            <form
+              onSubmit={(event) => void sendQuestion(event)}
+              className="border-t border-slate-800 p-4"
+            >
+              <div className="flex items-end gap-3">
+                <textarea
+                  value={question}
+                  onChange={(event) => setQuestion(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === "Enter" &&
+                      !event.shiftKey &&
+                      !event.nativeEvent.isComposing
+                    ) {
+                      event.preventDefault();
+                      event.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                  placeholder="Ask about spending, funds, or holdings..."
+                  aria-label="Your financial question"
+                  maxLength={2000}
+                  rows={2}
+                  disabled={loading}
+                  className="min-h-14 flex-1 resize-y rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-sm outline-none placeholder:text-slate-500 focus:border-emerald-400 disabled:opacity-60"
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !question.trim()}
+                  className="rounded-xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {loading ? "Thinking..." : "Ask"}
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-slate-500">
+                Enter to send · Shift+Enter for a new line
+              </p>
+            </form>
+          </section>
+        </section>
+
+        <footer className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+          Finance Research Agent · Historical calculations are not
+          investment advice.
+        </footer>
+      </div>
+    </main>
   );
 }
