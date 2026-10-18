@@ -1,0 +1,99 @@
+{
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
+  "errors": 0,
+  "results": [
+    {
+      "id": "EVAL-01",
+      "name": "January 2024 transaction count",
+      "status": "PASS",
+      "duration_ms": 123.03,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-02",
+      "name": "January gross debits",
+      "status": "PASS",
+      "duration_ms": 5.08,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-03",
+      "name": "January refunds",
+      "status": "PASS",
+      "duration_ms": 4.54,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-04",
+      "name": "January net spending",
+      "status": "PASS",
+      "duration_ms": 5.54,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-05",
+      "name": "January travel transaction count",
+      "status": "PASS",
+      "duration_ms": 6.26,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-06",
+      "name": "January travel net spending",
+      "status": "PASS",
+      "duration_ms": 5.19,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-07",
+      "name": "Amazon merchant transaction count",
+      "status": "PASS",
+      "duration_ms": 16.39,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-08",
+      "name": "Amazon merchant net spending",
+      "status": "PASS",
+      "duration_ms": 7.73,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-09",
+      "name": "Apex Gold fund return",
+      "status": "PASS",
+      "duration_ms": 26.37,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-10",
+      "name": "Apex Gold starting NAV",
+      "status": "PASS",
+      "duration_ms": 5.33,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-11",
+      "name": "Holdings count",
+      "status": "PASS",
+      "duration_ms": 30.98,
+      "details": "All checks passed."
+    },
+    {
+      "id": "EVAL-12",
+      "name": "Reject reversed spending date range",
+      "status": "PASS",
+      "duration_ms": 0.03,
+      "details": "Expected error was raised."
+    },
+    {
+      "id": "EVAL-13",
+      "name": "Reject unknown fund",
+      "status": "PASS",
+      "duration_ms": 1.64,
+      "details": "Expected error was raised."
+    }
+  ]
+}
