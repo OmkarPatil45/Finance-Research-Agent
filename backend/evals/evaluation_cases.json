@@ -1,0 +1,200 @@
+
+[
+  {
+    "id": "EVAL-01",
+    "name": "January 2024 transaction count",
+    "operation": "calculate_spending",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {"path": "transaction_count", "expected": 103}
+    ]
+  },
+  {
+    "id": "EVAL-02",
+    "name": "January gross debits",
+    "operation": "calculate_spending",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {"path": "gross_debits", "expected": 253608.96}
+    ]
+  },
+  {
+    "id": "EVAL-03",
+    "name": "January refunds",
+    "operation": "calculate_spending",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {"path": "refunds", "expected": 28623.83}
+    ]
+  },
+  {
+    "id": "EVAL-04",
+    "name": "January net spending",
+    "operation": "calculate_spending",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {"path": "net_spending", "expected": 224985.13}
+    ]
+  },
+  {
+    "id": "EVAL-05",
+    "name": "January travel transaction count",
+    "operation": "spending_by_category",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {
+        "type": "list_item",
+        "path": "categories",
+        "match_field": "category",
+        "match_value": "travel",
+        "field": "transaction_count",
+        "expected": 12
+      }
+    ]
+  },
+  {
+    "id": "EVAL-06",
+    "name": "January travel net spending",
+    "operation": "spending_by_category",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-31"
+    },
+    "checks": [
+      {
+        "type": "list_item",
+        "path": "categories",
+        "match_field": "category",
+        "match_value": "travel",
+        "field": "net_spending",
+        "expected": 87192.12
+      }
+    ]
+  },
+  {
+    "id": "EVAL-07",
+    "name": "Amazon merchant transaction count",
+    "operation": "spending_by_merchant",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-03-31",
+      "limit": 100
+    },
+    "checks": [
+      {
+        "type": "list_item",
+        "path": "merchants",
+        "match_field": "merchant",
+        "match_value": "Amazon",
+        "field": "transaction_count",
+        "expected": 14
+      }
+    ]
+  },
+  {
+    "id": "EVAL-08",
+    "name": "Amazon merchant net spending",
+    "operation": "spending_by_merchant",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-01-01",
+      "end_date": "2024-03-31",
+      "limit": 100
+    },
+    "checks": [
+      {
+        "type": "list_item",
+        "path": "merchants",
+        "match_field": "merchant",
+        "match_value": "Amazon",
+        "field": "net_spending",
+        "expected": 64712.38
+      }
+    ]
+  },
+  {
+    "id": "EVAL-09",
+    "name": "Apex Gold fund return",
+    "operation": "calculate_fund_return",
+    "params": {
+      "snapshot_id": "sample_a",
+      "fund_name": "Apex Gold Savings Fund",
+      "start_date": "2023-04-01",
+      "end_date": "2025-03-01"
+    },
+    "checks": [
+      {"path": "return_percentage", "expected": 25.2398}
+    ]
+  },
+  {
+    "id": "EVAL-10",
+    "name": "Apex Gold starting NAV",
+    "operation": "calculate_fund_return",
+    "params": {
+      "snapshot_id": "sample_a",
+      "fund_name": "Apex Gold Savings Fund",
+      "start_date": "2023-04-01",
+      "end_date": "2025-03-01"
+    },
+    "checks": [
+      {"path": "start_nav", "expected": 42.75}
+    ]
+  },
+  {
+    "id": "EVAL-11",
+    "name": "Holdings count",
+    "operation": "calculate_holding_returns",
+    "params": {
+      "snapshot_id": "sample_a",
+      "as_of_date": "2025-03-01"
+    },
+    "checks": [
+      {"path": "count", "expected": 8}
+    ]
+  },
+  {
+    "id": "EVAL-12",
+    "name": "Reject reversed spending date range",
+    "operation": "calculate_spending",
+    "params": {
+      "snapshot_id": "sample_a",
+      "start_date": "2024-02-01",
+      "end_date": "2024-01-01"
+    },
+    "expected_error": "start_date cannot be after end_date"
+  },
+  {
+    "id": "EVAL-13",
+    "name": "Reject unknown fund",
+    "operation": "calculate_fund_return",
+    "params": {
+      "snapshot_id": "sample_a",
+      "fund_name": "Nonexistent Test Fund",
+      "start_date": "2023-04-01",
+      "end_date": "2025-03-01"
+    },
+    "expected_error": "No fund found"
+  }
+]
