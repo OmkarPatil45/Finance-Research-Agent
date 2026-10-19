@@ -1,7 +1,7 @@
 
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 type Message = {
   role: "user" | "assistant";
@@ -22,10 +22,23 @@ export default function Home() {
     {
       role: "assistant",
       content:
-        "Hello! I'm Tara, your Finance Research Assistant. Ask me about spending, transactions, fund returns, or investment holdings.",
+        "Hello! I'm Jemi, your Finance Research Assistant. Ask me about spending, transactions, fund returns, or investment holdings.",
     },
   ]);
   const [loading, setLoading] = useState(false);
+
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = messagesContainerRef.current;
+
+    if (container) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages, loading]);
 
   async function sendQuestion(
     event?: FormEvent<HTMLFormElement>,
@@ -104,7 +117,7 @@ export default function Home() {
                 Finance Research Agent
               </h1>
               <p className="text-sm text-slate-400">
-                Tara · Your financial research assistant
+                Jemi · Your financial research assistant
               </p>
             </div>
           </div>
@@ -120,11 +133,12 @@ export default function Home() {
               <option value="sample_a">Sample A</option>
               <option value="sample_b">Sample B</option>
               <option value="sample_c">Sample C</option>
+              <option value="sample_d">Sample D</option>
             </select>
           </label>
         </header>
 
-        <section className="grid flex-1 gap-6 py-8 md:grid-cols-[260px_1fr]">
+        <section className="grid flex-1 items-start gap-6 py-8 md:grid-cols-[260px_1fr]">
           <aside className="space-y-5">
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4">
               <h2 className="font-semibold">What I can help with</h2>
@@ -156,25 +170,24 @@ export default function Home() {
             </div>
           </aside>
 
-          <section className="flex min-h-[520px] flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50">
-            <div className="border-b border-slate-800 px-5 py-4">
-              <h2 className="font-semibold">Ask Tara</h2>
+          <section className="flex h-[min(600px,70vh)] min-h-[350px] flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/50">
+            <div className="shrink-0 border-b border-slate-800 px-5 py-4">
+              <h2 className="font-semibold">Ask Jemi</h2>
               <p className="mt-1 text-xs text-slate-400">
                 Answers are based on the selected dataset.
               </p>
             </div>
 
             <div
-              className="flex-1 space-y-5 overflow-y-auto p-5"
+              ref={messagesContainerRef}
+              className="chat-scrollbar flex-1 min-h-0 space-y-5 overflow-y-auto p-5"
               aria-live="polite"
             >
               {messages.map((message, index) => (
                 <div
                   key={`${index}-${message.role}`}
                   className={`flex ${
-                    message.role === "user"
-                      ? "justify-end"
-                      : "justify-start"
+                    message.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
@@ -185,7 +198,7 @@ export default function Home() {
                     }`}
                   >
                     <p className="mb-1 text-xs font-semibold opacity-70">
-                      {message.role === "user" ? "You" : "Tara"}
+                      {message.role === "user" ? "You" : "Jemi"}
                     </p>
                     <p className="whitespace-pre-wrap break-words">
                       {message.content}
@@ -195,18 +208,15 @@ export default function Home() {
               ))}
 
               {loading && (
-                <div
-                  role="status"
-                  className="text-sm text-emerald-300"
-                >
-                  Tara is checking your financial data...
+                <div role="status" className="text-sm text-emerald-300">
+                  Jemi is checking your financial data...
                 </div>
               )}
             </div>
 
             <form
               onSubmit={(event) => void sendQuestion(event)}
-              className="border-t border-slate-800 p-4"
+              className="shrink-0 border-t border-slate-800 p-4"
             >
               <div className="flex items-end gap-3">
                 <textarea
