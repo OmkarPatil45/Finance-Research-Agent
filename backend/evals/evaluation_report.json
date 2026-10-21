@@ -8,77 +8,77 @@
       "id": "EVAL-01",
       "name": "January 2024 transaction count",
       "status": "PASS",
-      "duration_ms": 123.03,
+      "duration_ms": 75.05,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-02",
       "name": "January gross debits",
       "status": "PASS",
-      "duration_ms": 5.08,
+      "duration_ms": 2.1,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-03",
       "name": "January refunds",
       "status": "PASS",
-      "duration_ms": 4.54,
+      "duration_ms": 1.56,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-04",
       "name": "January net spending",
       "status": "PASS",
-      "duration_ms": 5.54,
+      "duration_ms": 1.45,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-05",
       "name": "January travel transaction count",
       "status": "PASS",
-      "duration_ms": 6.26,
+      "duration_ms": 3.07,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-06",
       "name": "January travel net spending",
       "status": "PASS",
-      "duration_ms": 5.19,
+      "duration_ms": 1.76,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-07",
       "name": "Amazon merchant transaction count",
       "status": "PASS",
-      "duration_ms": 16.39,
+      "duration_ms": 10.04,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-08",
       "name": "Amazon merchant net spending",
       "status": "PASS",
-      "duration_ms": 7.73,
+      "duration_ms": 4.51,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-09",
       "name": "Apex Gold fund return",
       "status": "PASS",
-      "duration_ms": 26.37,
+      "duration_ms": 14.81,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-10",
       "name": "Apex Gold starting NAV",
       "status": "PASS",
-      "duration_ms": 5.33,
+      "duration_ms": 2.6,
       "details": "All checks passed."
     },
     {
       "id": "EVAL-11",
       "name": "Holdings count",
       "status": "PASS",
-      "duration_ms": 30.98,
+      "duration_ms": 14.44,
       "details": "All checks passed."
     },
     {
@@ -92,7 +92,7 @@
       "id": "EVAL-13",
       "name": "Reject unknown fund",
       "status": "PASS",
-      "duration_ms": 1.64,
+      "duration_ms": 0.78,
       "details": "Expected error was raised."
     }
   ]
