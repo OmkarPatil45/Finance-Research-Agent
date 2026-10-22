@@ -18,16 +18,19 @@ app = FastAPI(
     version="0.1.0",
 )
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "https://finance-research-agent-khaki.vercel.app",
     ],
     allow_credentials=False,
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
+
 
 
 @app.get("/health")
