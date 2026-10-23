@@ -5,10 +5,6 @@ An AI-powered financial research assistant that helps users analyze spending pat
 
 **Live Demo:** https://finance-research-agent-khaki.vercel.app/
 
-**Backend API:** https://finance-research-agent-jy5o.onrender.com/
-
-**API Documentation:** https://finance-research-agent-jy5o.onrender.com/docs
-
 ## Features
 
 - **AI-Powered Financial Assistant:** Ask natural-language questions using Jemi, the finance research assistant.
@@ -152,15 +148,6 @@ Replace the example values with your actual configuration. Never commit secrets 
 
 Ensure PostgreSQL is running and `DATABASE_URL` points to the intended database.
 
-Run the following commands from the `backend` directory in Windows PowerShell:
-
-```powershell
-python -m scripts.ingest_snapshot --path ..\data\sample_a
-python -m scripts.ingest_snapshot --path ..\data\sample_b
-python -m scripts.ingest_snapshot --path ..\data\sample_c
-python -m scripts.ingest_snapshot --path ..\data\sample_d
-```
-
 The ingestion script initializes the database tables and loads the available snapshot data.
 
 ### 4. Start the Backend Server
@@ -297,13 +284,6 @@ Test results depend on the current code, environment configuration, model, and d
 | AI requests fail | Check the Gemini API key, model configuration, and backend logs. |
 | Frontend environment changes do not take effect | Redeploy the frontend after changing environment variables. |
 
-## Security
-
-- Never commit `.env` files or API keys.
-- Never expose database credentials through frontend environment variables.
-- Keep the Gemini API key on the backend.
-- Configure CORS with trusted frontend origins.
-- Avoid logging sensitive credentials.
 
 ## Future Enhancements
 
