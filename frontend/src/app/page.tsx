@@ -2,6 +2,8 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Message = {
   role: "user" | "assistant";
@@ -200,16 +202,24 @@ export default function Home() {
                     <p className="mb-1 text-xs font-semibold opacity-70">
                       {message.role === "user" ? "You" : "Jemi"}
                     </p>
-                    <p className="whitespace-pre-wrap break-words">
-                      {message.content}
-                    </p>
+                    {message.role === "user" ? (
+                      <p className="whitespace-pre-wrap break-words">
+                        {message.content}
+                      </p>
+                    ) : (
+                      <div className="jemi-markdown break-words">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
 
               {loading && (
                 <div role="status" className="text-sm text-emerald-300">
-                  Jemi is checking your financial data...
+                  Jemi is thinking...
                 </div>
               )}
             </div>
