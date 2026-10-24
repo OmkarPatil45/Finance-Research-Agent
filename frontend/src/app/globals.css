@@ -50,3 +50,117 @@ body {
 .chat-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #10b981;
 }
+
+/* ── Jemi assistant Markdown prose ───────────────────────── */
+.jemi-markdown {
+  line-height: 1.75;
+  font-size: 0.875rem; /* text-sm, matches the bubble */
+}
+
+.jemi-markdown p {
+  margin: 0 0 0.5rem;
+}
+.jemi-markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.jemi-markdown strong {
+  font-weight: 700;
+  color: #e2e8f0; /* slate-200 */
+}
+
+.jemi-markdown em {
+  font-style: italic;
+}
+
+.jemi-markdown h1,
+.jemi-markdown h2,
+.jemi-markdown h3,
+.jemi-markdown h4 {
+  font-weight: 700;
+  color: #f1f5f9; /* slate-100 */
+  margin: 0.75rem 0 0.25rem;
+  line-height: 1.4;
+}
+.jemi-markdown h1 { font-size: 1.125rem; }
+.jemi-markdown h2 { font-size: 1rem; }
+.jemi-markdown h3 { font-size: 0.9375rem; }
+.jemi-markdown h4 { font-size: 0.875rem; }
+
+.jemi-markdown ul,
+.jemi-markdown ol {
+  margin: 0.25rem 0 0.5rem 1.25rem;
+  padding: 0;
+}
+.jemi-markdown ul { list-style: disc; }
+.jemi-markdown ol { list-style: decimal; }
+.jemi-markdown li {
+  margin: 0.15rem 0;
+}
+
+.jemi-markdown code {
+  background: #1e293b; /* slate-800 */
+  border-radius: 0.25rem;
+  padding: 0.1em 0.35em;
+  font-size: 0.8125rem;
+  color: #34d399; /* emerald-400 */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.jemi-markdown pre {
+  background: #0f172a; /* slate-900 */
+  border: 1px solid #334155; /* slate-700 */
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+.jemi-markdown pre code {
+  background: transparent;
+  padding: 0;
+  color: #cbd5e1; /* slate-300 */
+}
+
+.jemi-markdown blockquote {
+  border-left: 3px solid #10b981; /* emerald-500 */
+  margin: 0.5rem 0;
+  padding: 0.25rem 0 0.25rem 0.75rem;
+  color: #94a3b8; /* slate-400 */
+  font-style: italic;
+}
+
+.jemi-markdown a {
+  color: #34d399; /* emerald-400 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.jemi-markdown a:hover {
+  color: #6ee7b7; /* emerald-300 */
+}
+
+.jemi-markdown hr {
+  border: none;
+  border-top: 1px solid #334155; /* slate-700 */
+  margin: 0.75rem 0;
+}
+
+.jemi-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  margin: 0.5rem 0;
+}
+.jemi-markdown th,
+.jemi-markdown td {
+  border: 1px solid #334155; /* slate-700 */
+  padding: 0.35rem 0.6rem;
+  text-align: left;
+}
+.jemi-markdown th {
+  background: #1e293b; /* slate-800 */
+  color: #e2e8f0; /* slate-200 */
+  font-weight: 600;
+}
+.jemi-markdown tr:nth-child(even) td {
+  background: #0f172a; /* slate-900 */
+}
